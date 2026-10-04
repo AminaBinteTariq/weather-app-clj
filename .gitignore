@@ -1,0 +1,33 @@
+# Clojure build files
+/target/
+/classes/
+/checkouts/
+/.cpcache/
+
+# Clojure editor and tooling caches
+/.calva/
+/.clj-kondo/cache/
+/.lsp/.cache/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.swp
+*.swo
+*~
+*.json

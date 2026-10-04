@@ -1,0 +1,31 @@
+(ns weather-app.data-store
+  (:require [clojure.data.csv :as csv]
+            [clojure.java.io :as io]))
+
+
+(defn save-to-csv [city hourly-update]
+  (let [filepath (format "%s.csv" city)
+        file (io/file filepath)
+        datarow [(:timestamp hourly-update)
+                 (:temperature hourly-update)]]
+    (if (or (not (.exists file))
+            (zero? (.length file)))
+      (with-open [writer (io/writer filepath)]
+        (csv/write-csv writer [["timestamp" "temperature"] datarow]))
+      (with-open [writer (io/writer filepath :append true)]
+        (csv/write-csv writer [datarow])))))
+
+
+(defn read-from-csv [city]
+  (let [filepath (format "%s.csv" city)
+        file (io/file filepath)]
+    
+    (if (or (not (.exists file))
+            (zero? (.length file)))
+      []
+      (with-open [r (io/reader file)]
+        (let [[_header & rows] (csv/read-csv r)]
+          (mapv (fn [[ts temp]]
+                  {:timestamp ts
+                   :temperature (parse-double temp)})
+                rows))))))
