@@ -9,8 +9,8 @@
   (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss"))
 
 
-(def weather-api-t
-  "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s")
+(def weather-api-url
+  "https://api.openweathermap.org/data/2.5/weather")
 
 (defn api-key []
   (or (System/getenv "WEATHER_API_KEY")
@@ -18,8 +18,13 @@
 
 
 (defn fetch-temperature [city]
-  (let [endpoint (format weather-api-t city (api-key))
-        response (client/get endpoint)
+  (let [response (client/get weather-api-url
+                             {:query-params {"q" city
+                                             "units" "metric"
+                                             "appid" (api-key)}
+                              ;; timeouts in milliseconds
+                              :connection-timeout 5000
+                              :socket-timeout 10000})
         data (charred/read-json (:body response) :key-fn keyword)
         temperature (get-in data [:main :temp])
         timestamp (.format (LocalDateTime/now) formatter)]
