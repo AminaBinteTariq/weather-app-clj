@@ -64,7 +64,7 @@
 
 
 (deftest save-to-csv-does-not-duplicate-header
-  (let [filepath "test/weather_app/data/test_berlin.csv"]
+  (let [filepath "test/weather_app/data/test_dupe_header.csv"]
     (try
       ;; First write to a missing file add headers
       (data-store/save-to-csv filepath sample-hourly-update)
@@ -78,7 +78,7 @@
         ;; (println (re-seq #"(?i)^timestamp,temperature" content)))
         ;; count of headers (case insensitive) from the string should be 1
         (is (= 1
-               (count (re-seq #"(?i)^timestamp,temperature" content)))))
+               (count (re-seq #"(?im)^timestamp,temperature$" content)))))
 
       (finally
         (when (.exists (io/file filepath))
