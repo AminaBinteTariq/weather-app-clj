@@ -39,6 +39,15 @@
     (is (= [] records))))
 
 
+
+(deftest read-from-csv-skips-malformed-rows
+  (let [records (data-store/read-from-csv
+                 "test/weather_app/data/malformed_rows.csv")]
+    (is (= [{:timestamp "2026-10-04T20:01:08" :temperature 13.86}
+            {:timestamp "2026-10-04T23:01:08" :temperature 14.64}]
+           records))))
+
+
 (def sample-hourly-update {:timestamp "2026-10-05T10:00:00"
                            :temperature 15.5})
 
