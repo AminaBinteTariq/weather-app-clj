@@ -95,3 +95,4 @@ Timestamps use the machine's local time in `yyyy-MM-dd'T'HH:mm:ss` format and do
 - **Retries:** Retry temporary API failures with backoff instead of waiting for the next hourly run
 - **Monitoring:** Add structured logs for easier debugging, and connect them to an alerting system
 - **Timestamps:** Store timestamps in UTC to avoid ambiguity across time zones
+- **Routing:** Use a routing library, as we only have one data endpoint (`/temperatures`) plus a welcome route, so routing is a plain `cond` in `api.clj`
