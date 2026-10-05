@@ -1,9 +1,8 @@
 (ns weather-app.weather
   (:require [clj-http.client :as client]
-            [charred.api :as charred]))
-
-(import '[java.time LocalDateTime]
-        '[java.time.format DateTimeFormatter])
+            [charred.api :as charred])
+  (:import [java.time LocalDateTime]
+           [java.time.format DateTimeFormatter]))
 
 (def formatter
   (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss"))
