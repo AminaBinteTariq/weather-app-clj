@@ -16,7 +16,8 @@
       (and (= method :get) (= uri "/temperatures"))
       {:status 200
        :headers {"Content-Type" "application/json"}
-       :body (charred/write-json-str (data-store/read-from-csv city))}
+       :body (charred/write-json-str
+              (data-store/read-from-csv (str city ".csv")))}
 
       :else
       {:status 404

@@ -8,7 +8,7 @@
 (defn hourly-weather-update [city]
   (try
     (let [weather (weather/fetch-temperature city)]
-      (data-store/save-to-csv city weather)
+      (data-store/save-to-csv (str city ".csv") weather)
       (println "Temperature saved successfully for" city))
     (catch Exception e
       (println "Fetch or save failed for" city ":" (.getMessage e)))))
