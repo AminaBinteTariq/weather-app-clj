@@ -16,7 +16,7 @@ Set the API key in your shell before starting the application:
 export WEATHER_API_KEY="your-openweathermap-api-key"
 ```
 
-The key is read when the weather namespace loads. If it is missing, the application fails during startup before the server begins listening.
+The key is checked when the application starts. If it is missing, the application fails during startup before the server begins listening.
 
 ## Run
 

@@ -12,13 +12,13 @@
 (def weather-api-t
   "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s")
 
-(def api-key
+(defn api-key []
   (or (System/getenv "WEATHER_API_KEY")
       (throw (ex-info "Missing WEATHER_API_KEY" {}))))
 
 
 (defn fetch-temperature [city]
-  (let [endpoint (format weather-api-t city api-key)
+  (let [endpoint (format weather-api-t city (api-key))
         response (client/get endpoint)
         data (charred/read-json (:body response) :key-fn keyword)
         temperature (get-in data [:main :temp])
