@@ -5,17 +5,17 @@
   (:import [java.time Duration]))
 
 
-(defn hourly-weather-update [city]
+(defn hourly-weather-update [city filepath]
   (try
     (let [weather (weather/fetch-temperature city)]
-      (data-store/save-to-csv (str city ".csv") weather)
+      (data-store/save-to-csv filepath weather)
       (println "Temperature saved successfully for" city))
     (catch Exception e
       (println "Fetch or save failed for" city ":" (.getMessage e)))))
 
 
-(defn start-scheduler [city]
+(defn start-scheduler [city filepath]
   (chime/chime-at
    (chime/periodic-seq (chime/now) (Duration/ofHours 1))
    (fn [_time]
-     (hourly-weather-update city))))
+     (hourly-weather-update city filepath))))

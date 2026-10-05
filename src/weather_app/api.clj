@@ -1,8 +1,7 @@
 (ns weather-app.api
-  (:require [weather-app.data-store :as data-store]
+  (:require [weather-app.config :as config]
+            [weather-app.data-store :as data-store]
             [charred.api :as charred]))
-
-(def city "Berlin")
 
 (defn handler [request]
   (let [method (:request-method request)
@@ -17,7 +16,7 @@
       {:status 200
        :headers {"Content-Type" "application/json"}
        :body (charred/write-json-str
-              (data-store/read-from-csv (str city ".csv")))}
+              (data-store/read-from-csv config/csv-filepath))}
 
       :else
       {:status 404
