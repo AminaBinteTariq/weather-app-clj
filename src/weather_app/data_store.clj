@@ -22,7 +22,10 @@
       []
       (with-open [r (io/reader file)]
         (let [[_header & rows] (csv/read-csv r)]
-          (mapv (fn [[ts temp]]
-                  {:timestamp ts
-                   :temperature (parse-double temp)})
+          ;; skip rows with a missing timestamp or temperature
+          (into []
+                (keep (fn [[ts temp]]
+                        (when-let [t (and (seq ts) (string? temp) (parse-double temp))]
+                          {:timestamp ts
+                           :temperature t})))
                 rows))))))
