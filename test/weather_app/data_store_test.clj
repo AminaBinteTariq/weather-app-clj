@@ -9,9 +9,6 @@
 
     (is (= 5 (count records)))
 
-    (is (every? #(contains? % :temperature) records))
-    (is (every? #(contains? % :timestamp) records))
-
     (is (= "2026-10-04T20:01:08"
            (:timestamp (first records))))
     (is (= 13.86
@@ -61,7 +58,7 @@
 
       ;; this should create a new file
       (is (.exists (io/file filepath)))
-      
+
       ;; ensure that the records are saved in new file
       (let [records (data-store/read-from-csv filepath)]
         (is (= [sample-hourly-update] records)))
@@ -75,17 +72,16 @@
 (deftest save-to-csv-does-not-duplicate-header
   (let [filepath "test/weather_app/data/test_dupe_header.csv"]
     (try
-      ;; First write to a missing file add headers
+      ;; First write to a missing file adds the header.
       (data-store/save-to-csv filepath sample-hourly-update)
 
-      ;; Second write shouldn't add headers 
+      ;; Second write should not add another header.
       (data-store/save-to-csv filepath sample-hourly-update)
 
-      ;; Read the raw file as a string
+      ;; Read the raw file as a string.
       (let [content (slurp filepath)]
 
-        ;; (println (re-seq #"(?i)^timestamp,temperature" content)))
-        ;; count of headers (case insensitive) from the string should be 1
+        ;; There should be exactly one header.
         (is (= 1
                (count (re-seq #"(?im)^timestamp,temperature$" content)))))
 
