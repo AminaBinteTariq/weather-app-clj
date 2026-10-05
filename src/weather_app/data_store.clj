@@ -23,6 +23,7 @@
       (with-open [r (io/reader file)]
         (let [[_header & rows] (csv/read-csv r)]
           ;; skip rows with a missing timestamp or temperature
+          ;; improved using AI
           (into []
                 (keep (fn [[ts temp]]
                         (when-let [t (and (seq ts) (string? temp) (parse-double temp))]

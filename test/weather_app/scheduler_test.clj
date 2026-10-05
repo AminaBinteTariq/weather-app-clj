@@ -11,6 +11,7 @@
   (let [filepath "test/weather_app/data/test_scheduler.csv"
         reading {:timestamp "2026-10-05T10:00:00"
                  :temperature 15.5}]
+    ;; improved using AI
     (try
       (with-redefs [weather/fetch-temperature (fn [_city] reading)]
         (with-out-str
@@ -27,6 +28,7 @@
                                               (throw (ex-info "Request timeout" {})))
                   data-store/save-to-csv (fn [_filepath _reading]
                                            (reset! save-called true))]
+      ;; improved using AI
       (let [output (with-out-str
                      (scheduler/hourly-weather-update "Berlin" "test.csv"))]
         (is (str/includes? output "Request timeout"))

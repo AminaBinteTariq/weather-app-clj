@@ -13,7 +13,8 @@
            (:timestamp (first records))))
     (is (= 13.86
            (:temperature (first records))))
-
+    
+    ;; improved using AI
     (is (every? #(double? (:temperature %)) records))
     (is (every? #(string? (:timestamp %)) records))))
 
